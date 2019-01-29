@@ -100,6 +100,7 @@ public class ServerTask extends Task<Void>
                 {
                     updateMessage("Connected");
 
+
                     try (PrintWriter out = new PrintWriter(connectSocket.getOutputStream(), true);
                          BufferedReader in = new BufferedReader(new InputStreamReader(connectSocket.getInputStream())))
                     {
@@ -113,7 +114,7 @@ public class ServerTask extends Task<Void>
                             try{
                                 outText = getTime(inText);
                             }catch(Exception e){
-                                outText = "couldn't find that location";
+                                outText = "Couldn't find that location. Please try again";
                                 e.printStackTrace();
                         }
                             // Write the converted uppercase string to the connection socket
@@ -157,6 +158,7 @@ public class ServerTask extends Task<Void>
             outp = outp2[1];
             //picking out everything before the <div> element ends
             String[] totalDiv = outp.split(input);
+
             outp2 = totalDiv;
             outp = outp2[0];
             outp2 = outp.split("<");
@@ -177,41 +179,10 @@ public class ServerTask extends Task<Void>
 
 
 
-            System.out.println("time in " + input + ": " + time + " day: " + day + date);
-            return "time in " + input + ": " + time + " day: " + day + date;
+            System.out.println("Time in " + input + ": " + time + " Day:" + day + date);
+            return "Time in " + input + ": " + time + ", Day:" + day + date;
         }
 
-        /**
-         * Evaluate the intext if it is a valid binary expression. Otherwise, reverse the text.
-         * @param intext
-         * @return
-         */
-        private String ProcessString(String intext)
-        {
-            String outtext;
 
-            Pattern p = Pattern.compile("(\\d*\\.?\\d+)\\s*([\\+\\-\\*/])\\s*(\\d*\\.?\\d+)");
-            Matcher m = p.matcher(intext);
-            if (m.matches())
-            {
-                double operand1 = Double.valueOf(m.group(1));
-                char operator = m.group(2).charAt(0);
-                double operand2 = Double.valueOf(m.group(3));
-
-                double result=0;
-                switch(operator)
-                {
-                    case '+': result = operand1 + operand2;break;
-                    case '-': result = operand1 - operand2;break;
-                    case '*': result = operand1 * operand2;break;
-                    case '/': result = operand1 / operand2;break;
-                }
-                outtext = String.valueOf(result);
-            }
-            else
-                outtext = new StringBuffer(intext).reverse().toString();
-
-            return outtext;
-        }
     }
 }

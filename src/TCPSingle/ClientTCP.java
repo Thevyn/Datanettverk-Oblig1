@@ -2,12 +2,13 @@ package TCPSingle;
 
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class ClientTCP {
-    public static void main(String[] args) throws IOException
-    {
-
-      String hostName = "127.0.0.1"; // Default host, localhost
+    public static void main(String[] args) throws IOException {
+      Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the Server IP address: ");
+      String hostName = sc.nextLine(); // Default host, localhost
       int portNumber = 5555; // Default port to use
       if (args.length > 0)
         {
@@ -24,7 +25,7 @@ public class ClientTCP {
         }
 
 
-        System.out.println("Hi, I am a TCP client!");
+        System.out.println("Type in desired city or country ");
 
         try
         (
