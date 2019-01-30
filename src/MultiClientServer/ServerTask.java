@@ -141,46 +141,34 @@ public class ServerTask extends Task<Void>
 
 
             input = input.replaceAll(" ", "");
-            URLConnection connection = new URL("https://www.google.com/search?q=" + input + "+Time").openConnection();
+            URLConnection connection = new URL("https://www.worldtimeserver.com/search.aspx?searchfor=" + input).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             connection.connect();
 
-            BufferedReader r  = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
+            BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream(),
+                    Charset.forName("UTF-8")));
 
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = r.readLine()) != null) {
-                sb.append(line);
+                if(line.contains("<span id=\"theTime\" class=\"fontTS\">")) {
+                    line = r.readLine();
+                    line = line.replaceAll("\\s+","");
+                    sb.append(line);
+                }
+                if(line.contains("<span class=\"font6\">")) {
+                    line = r.readLine();
+                    line = line.replaceAll("</span>", "");
+                    line = line.replaceAll("\\s+","");
+                    line = line.replaceAll(","," ");
+                    sb.append(" ");
+                    sb.append(line);
+                    System.out.println(sb);
+                    break;
+                }
+
             }
-            String outp = sb.toString();
-
-            String[] outp2 = outp.split("gsrt vk_bk dDoNo\" aria-level=\"3\" role=\"heading\">");
-            outp = outp2[1];
-            //picking out everything before the <div> element ends
-            String[] totalDiv = outp.split(input);
-
-            outp2 = totalDiv;
-            outp = outp2[0];
-            outp2 = outp.split("<");
-
-            String time = outp2[0];
-
-            outp = totalDiv[0];
-            outp2 = outp.split("vk_sh\">");
-            outp = outp2[1];
-            outp2 = outp.split("<");
-            String day = outp2[0];
-
-            outp = totalDiv[0];
-            outp2 = outp.split("KfQeJ\">");
-            outp = outp2[1];
-            outp2 = outp.split("<");
-            String date = outp2[0];
-
-
-
-            System.out.println("Time in " + input + ": " + time + " Day:" + day + date);
-            return "Time in " + input + ": " + time + ", Day:" + day + date;
+            return sb.toString();
         }
 
 
