@@ -1,4 +1,4 @@
-package MultiClientServer; /**
+package UDPSingle; /**
  * Multiclient socket server with JavaFX: Main class
  * DATA/ITPE2410 Networking and Cloud Computing, Spring 2019
  * Raju Shrestha, OsloMet
@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MultiClientServerMain extends Application
