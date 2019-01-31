@@ -139,10 +139,10 @@ public class ServerTask extends Task<Void>
 
         private String getTime(String input) throws Exception{
 
-
-            input = input.replaceAll(" ", "");
-            URLConnection connection = new URL("https://www.worldtimeserver.com/search.aspx?searchfor=" + input).openConnection();
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            String url = "https://www.worldtimeserver.com/search.aspx?searchfor=" + URLEncoder.encode(input, "UTF-8");
+            URLConnection connection = new URL(url).openConnection();
+            connection.setRequestProperty("User-Agent",
+                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             connection.connect();
 
             BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream(),
@@ -153,15 +153,14 @@ public class ServerTask extends Task<Void>
             while ((line = r.readLine()) != null) {
                 if(line.contains("<span id=\"theTime\" class=\"fontTS\">")) {
                     line = r.readLine();
-                    line = line.replaceAll("\\s+","");
+                    line = line.replaceAll("^\\s+", "");
                     sb.append(line);
                 }
                 if(line.contains("<span class=\"font6\">")) {
                     line = r.readLine();
                     line = line.replaceAll("</span>", "");
-                    line = line.replaceAll("\\s+","");
-                    line = line.replaceAll(","," ");
-                    sb.append(" ");
+                    line = line.replaceAll("^\\s+", "");
+                    sb.append(" - ");
                     sb.append(line);
                     System.out.println(sb);
                     break;
@@ -170,7 +169,5 @@ public class ServerTask extends Task<Void>
             }
             return sb.toString();
         }
-
-
     }
 }

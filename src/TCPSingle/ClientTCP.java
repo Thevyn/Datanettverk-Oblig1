@@ -10,8 +10,7 @@ public class ClientTCP {
         System.out.println("Enter the Server IP address: ");
       String hostName = sc.nextLine(); // Default host, localhost
       int portNumber = 5555; // Default port to use
-      if (args.length > 0)
-        {
+      if (args.length > 0) {
            hostName = args[0];
            if (args.length > 1)
            {
